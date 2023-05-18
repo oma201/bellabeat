@@ -1,0 +1,286 @@
+/****** Script for SelectTopNRows command from SSMS  ******/
+--# seperate hourly calories data set to two data sets based on playing less or more active sports based on the burnt calories (<450,>450)
+  --select CONVERT(date, activity_hour) AS activity_date,
+  --     CONVERT(time, activity_hour) AS activity_time, activity_hour , id , calories,DATENAME(weekday, CONVERT(date, activity_hour)) AS day_of_week into bellabeat.dbo.hourly_calories_greater_than_450
+  --from bellabeat.dbo.hourly_calories
+  --where bellabeat.dbo.hourly_calories.calories > 450
+  --select CONVERT(date, activity_hour) AS activity_date,
+  --     CONVERT(time, activity_hour) AS activity_time, activity_hour , id , calories , DATENAME(weekday, CONVERT(date, activity_hour)) AS day_of_week into bellabeat.dbo.hourly_calories_less_than_or_equal_450
+  --from bellabeat.dbo.hourly_calories
+  --where bellabeat.dbo.hourly_calories.calories <= 450 and bellabeat.dbo.hourly_calories.calories >150
+  --# grouping hourly calories data set by activity hour (helping for visualizations)
+--  select activity_hour,sum(calories) as total_calories
+--  from bellabeat.dbo.hourly_calories
+--  group by activity_hour
+   --# grouping hourly intensities and hourly steps data set by activity hour (helping for visualizations)
+--SELECT id,sum(TotalIntensity) as total_intensities , sum(AverageIntensity) as average_intensities , ActivityHour into bellabeat.dbo.summarized_intensity
+--from bellabeat.dbo.hourlyintensities 
+--group by Id
+--select record_id ,sum(steptotal) as total_steps
+--from bellabeat.dbo.hourlySteps
+--group by record_id
+--# all previous data set cleaned and manipulate using R for all related files and the full project will be in my blog : https://omarmoharrem3.blogspot.com/
+--# working with another data sets
+--# minute calories narrow 
+--# data cleaning 
+--# checking id column 
+--select id 
+--from bellabeat.dbo.minutecaloriesnarrow
+--where id < 1000000000
+--# the metadata about this project tells that this data collected for 33 customers let's check that
+--select count(distinct(id)) as number_of_unique_idS
+--from bellabeat.dbo.minutecaloriesnarrow
+--# checking null values 
+--select  id 
+--from bellabeat.dbo.minutecaloriesnarrow
+--where id is null
+--# seperating activity minute in another table to check its validity 
+--select convert(date,activityminute) as activity_date into temp_1
+--from bellabeat.dbo.minutecaloriesnarrow
+--# the meta data tells that this data collected from 12 april till 12 may let's check that 
+--SELECT MIN(activity_date) AS min_date, MAX(activity_date) AS max_date
+--FROM temp_1
+--# checking the range of its time from 00:00 till 23:59 
+--SELECT MIN(activityminute) AS min_time, MAX(activityminute) AS max_time
+--FROM bellabeat.dbo.minutecaloriesnarrow
+-- # checking if it contains null values 
+--select activityminute
+--from bellabeat.dbo.minutecaloriesnarrow
+--where activityminute is null
+--# calories column 
+--# the values in this column can't be negative and according to American Council on Exercise. (n.d.) the limit of burnt calories 
+-- for adults training in high level of intensity cannot beyond 20 per minute let's check that 
+--select calories
+--from bellabeat.dbo.minutecaloriesnarrow
+--where calories < 0 or calories > 20
+--# checking if it contains null values 
+--select calories 
+--from bellabeat.dbo.minutecaloriesnarrow
+--where calories is null
+--# this data set is ready for visuallization 
+--# working with minute 
+--# checking id column 
+--select id 
+--from bellabeat.dbo.minutecalorieswide
+--where id < 1000000000
+--# the metadata about this project tells that this data collected for 33 customers let's check that
+--select count(distinct(id)) as number_of_unique_idS
+--from bellabeat.dbo.minutecalorieswide
+--# checking null values 
+--select  id 
+--from bellabeat.dbo.minutecalorieswide
+--where id is null
+--# the meta data tells that this data collected from 13 april till 13 may let's check that 
+--SELECT MIN(activityhour) AS min_date, MAX(activityhour) AS max_date
+--FROM bellabeat.dbo.minutecalorieswide
+--# checking if it contains null values 
+--select activityhour
+--from bellabeat.dbo.minutecalorieswide
+--where activityhour is null
+--# deleting rows that don't have activity hour 
+--delete 
+--from bellabeat.dbo.minutecalorieswide
+--where activityhour is null
+--# check
+--select activityhour
+--from bellabeat.dbo.minutecalorieswide
+--where activityhour is null
+--# checking 59 column is kind of craziness but to insure that we have vaiuable and high quality data leading to confidence
+-- and accurate statictics and visuals that leads to accurate decision 
+--# the values in this column can't be negative and according to American Council on Exercise. (n.d.) the limit of burnt calories 
+-- for adults training in high level of intensity cannot beyond 20 per minute let's check that 
+--select calories00
+--from bellabeat.dbo.minutecalorieswide
+--where calories00 < 0 or calories00 > 20
+--select calories01
+--from bellabeat.dbo.minutecalorieswide
+--where calories01 < 0 or calories01 > 20
+--select calories02
+--from bellabeat.dbo.minutecalorieswide
+--where calories02 < 0 or calories02 > 20
+--select calories03
+--from bellabeat.dbo.minutecalorieswide
+--where calories03 < 0 or calories03 > 20
+--select calories04
+--from bellabeat.dbo.minutecalorieswide
+--where calories04 < 0 or calories04 > 20
+--select calories05
+--from bellabeat.dbo.minutecalorieswide
+--where calories05 < 0 or calories05 > 20
+--select calories06
+--from bellabeat.dbo.minutecalorieswide
+--where calories06 < 0 or calories06 > 20
+--select calories07
+--from bellabeat.dbo.minutecalorieswide
+--where calories07 < 0 or calories07 > 20
+--select calories08
+--from bellabeat.dbo.minutecalorieswide
+--where calories08 < 0 or calories08 > 20
+--select calories09
+--from bellabeat.dbo.minutecalorieswide
+--where calories09 < 0 or calories09 > 20
+--select calories10
+--from bellabeat.dbo.minutecalorieswide
+--where calories10 < 0 or calories10 > 20
+--select calories11
+--from bellabeat.dbo.minutecalorieswide
+--where calories11 < 0 or calories11 > 20
+--select calories12
+--from bellabeat.dbo.minutecalorieswide
+--where calories12 < 0 or calories12 > 20
+--select calories13
+--from bellabeat.dbo.minutecalorieswide
+--where calories13 < 0 or calories13 > 20
+--select calories14
+--from bellabeat.dbo.minutecalorieswide
+--where calories14 < 0 or calories14 > 20
+--select calories15
+--from bellabeat.dbo.minutecalorieswide
+--where calories15 < 0 or calories15 > 20
+--select calories16
+--from bellabeat.dbo.minutecalorieswide
+--where calories16 < 0 or calories16 > 20
+--select calories17
+--from bellabeat.dbo.minutecalorieswide
+--where calories17 < 0 or calories17 > 20
+--select calories18
+--from bellabeat.dbo.minutecalorieswide
+--where calories18 < 0 or calories18 > 20
+--select calories19
+--from bellabeat.dbo.minutecalorieswide
+--where calories19 < 0 or calories19 > 20
+--select calories20
+--from bellabeat.dbo.minutecalorieswide
+--where calories20 < 0 or calories20 > 20
+--select calories21
+--from bellabeat.dbo.minutecalorieswide
+--where calories21 < 0 or calories21 > 20
+--select calories22
+--from bellabeat.dbo.minutecalorieswide
+--where calories22 < 0 or calories22 > 20
+--select calories23
+--from bellabeat.dbo.minutecalorieswide
+--where calories23 < 0 or calories23 > 20
+--select calories24
+--from bellabeat.dbo.minutecalorieswide
+--where calories24 < 0 or calories24 > 20
+--select calories25
+--from bellabeat.dbo.minutecalorieswide
+--where calories25 < 0 or calories25 > 20
+--select calories26
+--from bellabeat.dbo.minutecalorieswide
+--where calories26 < 0 or calories26 > 20
+--select calories27
+--from bellabeat.dbo.minutecalorieswide
+--where calories27 < 0 or calories27 > 20
+--select calories28
+--from bellabeat.dbo.minutecalorieswide
+--where calories28 < 0 or calories28 > 20
+--select calories29
+--from bellabeat.dbo.minutecalorieswide
+--where calories29 < 0 or calories29 > 20
+--select calories30
+--from bellabeat.dbo.minutecalorieswide
+--where calories30 < 0 or calories30 > 20
+--select calories31
+--from bellabeat.dbo.minutecalorieswide
+--where calories31 < 0 or calories31 > 20
+--select calories32
+--from bellabeat.dbo.minutecalorieswide
+--where calories32 < 0 or calories32 > 20
+--select calories33
+--from bellabeat.dbo.minutecalorieswide
+--where calories33 < 0 or calories33 > 20
+--select calories34
+--from bellabeat.dbo.minutecalorieswide
+--where calories34 < 0 or calories34 > 20
+--select calories35
+--from bellabeat.dbo.minutecalorieswide
+--where calories35 < 0 or calories35 > 20
+--select calories36
+--from bellabeat.dbo.minutecalorieswide
+--where calories36 < 0 or calories36 > 20
+--select calories37
+--from bellabeat.dbo.minutecalorieswide
+--where calories37 < 0 or calories37 > 20
+--select calories38
+--from bellabeat.dbo.minutecalorieswide
+--where calories38 < 0 or calories38 > 20
+--select calories39
+--from bellabeat.dbo.minutecalorieswide
+--where calories39 < 0 or calories39 > 20
+--select calories40
+--from bellabeat.dbo.minutecalorieswide
+--where calories40 < 0 or calories40 > 20
+--select calories41
+--from bellabeat.dbo.minutecalorieswide
+--where calories41 < 0 or calories41 > 20
+--select calories42
+--from bellabeat.dbo.minutecalorieswide
+--where calories42 < 0 or calories42 > 20
+--select calories43
+--from bellabeat.dbo.minutecalorieswide
+--where calories43 < 0 or calories43 > 20
+--select calories44
+--from bellabeat.dbo.minutecalorieswide
+--where calories44 < 0 or calories44 > 20
+--select calories45
+--from bellabeat.dbo.minutecalorieswide
+--where calories45 < 0 or calories45 > 20
+--select calories46
+--from bellabeat.dbo.minutecalorieswide
+--where calories46 < 0 or calories46 > 20
+--select calories47
+--from bellabeat.dbo.minutecalorieswide
+--where calories47 < 0 or calories47 > 20
+--select calories48
+--from bellabeat.dbo.minutecalorieswide
+--where calories48 < 0 or calories48 > 20
+--select calories49
+--from bellabeat.dbo.minutecalorieswide
+--where calories49 < 0 or calories49 > 20
+--select calories50
+--from bellabeat.dbo.minutecalorieswide
+--where calories50 < 0 or calories50 > 20
+--select calories51
+--from bellabeat.dbo.minutecalorieswide
+--where calories51 < 0 or calories51 > 20
+--select calories52
+--from bellabeat.dbo.minutecalorieswide
+--where calories52 < 0 or calories52 > 20
+--select calories53
+--from bellabeat.dbo.minutecalorieswide
+--where calories53 < 0 or calories53 > 20
+--select calories54
+--from bellabeat.dbo.minutecalorieswide
+--where calories54 < 0 or calories54 > 20
+--select calories55
+--from bellabeat.dbo.minutecalorieswide
+--where calories55 < 0 or calories55 > 20
+--select calories56
+--from bellabeat.dbo.minutecalorieswide
+--where calories56 < 0 or calories56 > 20
+--select calories57
+--from bellabeat.dbo.minutecalorieswide
+--where calories57 < 0 or calories57 > 20
+--select calories58
+--from bellabeat.dbo.minutecalorieswide
+--where calories58 < 0 or calories58 > 20
+--select calories59
+--from bellabeat.dbo.minutecalorieswide
+--where calories59 < 0 or calories59 > 20
+-- #finally!!!
+-- # i know there are several ways much easier than that like select * from where calories 00 <0 or calories 00 >20 or calories 01 
+-- ... etc but the safiest way is that i did 
+-- # i am not gonna check every column contain null value or not i will sum all of them if the result of summition the values
+-- not meet specific condition that means that row contains alot of null values and i will delete this row
+--alter table bellabeat.dbo.minutecalorieswide 
+--add total_calories float 
+--update bellabeat.dbo.minutecalorieswide set total_calories = calories00 + calories01 + calories02 + calories03 + calories04 + calories05 + calories06 + calories07 + calories08 + calories09 + calories10 + calories11 + calories12 + calories13 + calories14 + calories15 + calories16 + calories17 + calories18 + calories19 + calories20 + calories21 + calories22 + calories23 + calories24 + calories25 + calories26 + calories27 + calories28 + calories29 + calories30 + calories31 + calories32 + calories33 + calories34 + calories35 + calories36 + calories37 + calories38 + calories39 + calories40 + calories41 + calories42 + calories43 + calories44 + calories45 + calories46 + calories47 + calories48 + calories49 + calories50 + calories51 + calories52 + calories53 + calories54 + calories55 + calories56 + calories57 + calories58 + calories59
+--#according to American Council on Exercise (ACE) the number of burnt calories cannot be less than 15 per hour and cannot beyond 
+--1000 hour let's check that 
+--select total_calories 
+--from bellabeat.dbo.minutecalorieswide
+--where total_calories < 15 or total_calories > 1000
+--select id , activityhour , total_calories into bellabeat.dbo.pdated_wide_calories
+--from bellabeat.dbo.minutecalorieswide
